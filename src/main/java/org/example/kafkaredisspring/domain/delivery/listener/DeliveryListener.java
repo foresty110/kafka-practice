@@ -19,8 +19,9 @@ public class DeliveryListener {
     @KafkaListener(
         topics = TOPIC_PAYMENT_COMPLETED,
         groupId = "delivery-group",
-        containerFactory = "deliveryKafkaListenerContainerFactory"
-    )
+        containerFactory = "deliveryKafkaListenerContainerFactory",
+		concurrency = "3" // 컨슈머 개수 변경
+		)
     public void consume(PaymentCompletedEvent event) {
         log.info("[Delivery-Consumer] 결제 완료 이벤트 수신 - orderId={}, paymentId={}", event.getOrderId(), event.getPaymentId());
 

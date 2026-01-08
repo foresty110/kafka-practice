@@ -14,7 +14,8 @@ public class PaymentProducer {
     private final KafkaTemplate<String, PaymentCompletedEvent> paymentCompletedEventKafkaTemplate;
 
     public void send(PaymentCompletedEvent event) {
-        paymentCompletedEventKafkaTemplate.send(TOPIC_PAYMENT_COMPLETED, event);
+		String key = event.getUserId().toString(); //같은 유저의 이벤트는 같은 파티션에 저장되도록한다
+        paymentCompletedEventKafkaTemplate.send(TOPIC_PAYMENT_COMPLETED,key, event);
     }
 
 }
